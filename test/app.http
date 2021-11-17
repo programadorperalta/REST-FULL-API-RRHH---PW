@@ -1,0 +1,144 @@
+################################################################################
+# Los Archivos con extensión http son interpretados por la extensión REST Client
+################################################################################
+#podemos definir variables con @ y el nombre que nosotros queramos. 
+# Variable con la URL base
+@BASE_API=http://localhost:8080
+
+
+###Obtener raiz
+GET {{BASE_API}}/
+
+
+### Obtener ping
+GET {{BASE_API}}/ping
+
+# Variable con la URL completa hacia la API de departamentos
+@API_DEPARTAMENTOS={{BASE_API}}/api/v1/departamentos
+@API_EMPLEADOS={{BASE_API}}/api/v1/empleados
+@API_SALARIOS ={{BASE_API}}/api/v1/salarios
+@API_DEPARTAMENTOSEMPLEADOS={{BASE_API}}/api/v1/departamentosEmpleados
+@API_DEPARTAMENTOMANAGER={{BASE_API}}/api/v1/departamentoManager
+
+
+### Obtener todos los departamentos
+GET {{API_DEPARTAMENTOS}}
+
+### Obtener departamento con id d009
+GET {{API_DEPARTAMENTOS}}/d009
+
+### Obtener departamento con id d00999 (no existe)
+GET {{API_DEPARTAMENTOS}}/d00999
+
+### Obtener el Administrador del departamento con id d009
+GET {{API_DEPARTAMENTOS}}/d009/manager
+
+
+### Obtener empleado con emp_no 10001
+GET {{API_DEPARTAMENTOS}}/employees
+
+
+### Agregar un departamento aqui le decimos si o si envia un JSON como cuerpo. entonces el middleware sabe que tiene que interpretar el contenido como objeto json. 
+POST {{API_DEPARTAMENTOS}}
+Content-Type: application/json 
+
+{
+    "dept_no":"dinf", 
+    "dept_name":"Departamento de Sistemas" 
+}
+
+### Modificar departamento con id dinf
+PUT {{API_DEPARTAMENTOS}}/dinf
+Content-Type: application/json
+
+{
+    "dept_no":"dinf",
+    "dept_name":"Depto. de Sistemas"
+}
+
+### Eliminar departamento con id dinf
+DELETE {{API_DEPARTAMENTOS}}/dinf
+
+### Obtener departamento con id dinf
+GET {{API_DEPARTAMENTOS}}/dinf
+
+
+
+####################################################PUNTO 1#############################################
+
+### El sistema debe permitir obtener un listado de los empleados actuales de un departamento con id d002
+GET {{API_DEPARTAMENTOS}}/d002/employees
+
+
+####################################################PUNTO 2#############################################
+
+### Modificar todate de salario con codigo de empleado 10019
+PUT {{API_SALARIOS}}/10019/employee/UpdateSalary/date
+Content-Type: application/json
+
+{
+    "emp_no": 10019
+}
+
+
+### Agregar salario con codigo de empleado 10019
+POST {{API_SALARIOS}}/AddSalary
+Content-Type: application/json
+
+{
+    "emp_no": 10026,
+    "salary": 66313
+}
+
+
+### Modificar salario y todate de salario con codigo de empleado 10019
+PUT {{API_SALARIOS}}/10019/employee/UpdateSalary
+Content-Type: application/json
+
+{
+    "emp_no": 1001,
+    "salary": 15000
+}
+
+
+
+####################################################PUNTO 3#############################################
+
+### Modificar departamento_empleado con id empleado 10001
+PUT {{API_DEPARTAMENTOSEMPLEADOS}}/10002
+Content-Type: application/json
+
+{
+    "dept_no":"d003"
+}
+
+####################################################PUNTO 4#############################################
+
+### Modificar departamento_manager con id empleado 110114
+PUT {{API_DEPARTAMENTOMANAGER}}/110114
+Content-Type: application/json
+
+{
+    "dept_no":"d003"
+}
+
+
+#############################Ultimo salario de un empleado
+GET {{API_SALARIOS}}/10001
+
+################ GET EMPLEADO
+GET {{API_DEPARTAMENTOSEMPLEADOS}}/10001/empleado
+
+#################Insert deptoEmp 
+POST {{API_DEPARTAMENTOSEMPLEADOS}}/AddDeptoEmpleados
+Content-Type: application/json
+
+{
+    "emp_no": 10009,
+    "dept_no":"d003"
+}
+
+
+######### 
+GET {{API_DEPARTAMENTOSEMPLEADOS}}/10003/DeptoEmpActual
+
